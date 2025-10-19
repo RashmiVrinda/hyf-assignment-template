@@ -1,0 +1,109 @@
+/* Base styles */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header */
+header {
+  background-color: #cdeac0;
+  text-align: center;
+  position: sticky;   /* Exercise 4: sticky header */
+  top: 0;
+  z-index: 100;
+}
+header h1 {
+  margin: 0;
+  font-size: 2em;
+}
+
+header p {
+  margin: 5px 0 0 0;
+  font-size: 1.1em;
+}
+
+/* Main layout using flex */
+main {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+/* Sections */
+section {
+  flex: 2;
+  min-width: 300px;
+  margin-right: 20px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Aside / Sidebar */
+aside {
+  flex: 1;
+  min-width: 200px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  height: fit-content;
+}
+
+/* Footer */
+footer {
+  background-color: #cdeac0;
+  text-align: center;
+  padding: 15px;
+  margin-top: 20px;
+}
+
+/* Highlight class for non-semantic span */
+.highlight {
+  background-color: #fff176;
+  font-weight: bold;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+/* Links */
+a {
+  color: #2a7a2a;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+/* Hover & focus states */
+a:hover,
+a:focus {
+  color: #1b4f1b;
+  text-decoration: underline;
+}
+
+/* Lists */
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+/* Exercise 4: Media query for smaller screens */
+@media screen and (max-width: 768px) {
+  main {
+    flex-direction: column;
+    padding: 0 10px;
+  }
+
+  section {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+}
