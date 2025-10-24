@@ -1,8 +1,0 @@
-biryani_recipe = """
-1. Marinate 500g chicken with 1 cup yogurt, 2 tbsp ginger-garlic paste, 1 tsp turmeric,
-   1 tsp chili powder, 1 tsp garam masala, salt, and 1/2 lemon juice for 30 min.
-2. Boil 2 cups basmati rice with salt, 2-3 cardamoms, 2 cloves, 1 cinnamon stick, 1 bay leaf until 70% done.
-3. Fry 2 sliced onions in 4 tbsp oil/ghee until golden. Add 2 chopped tomatoes, 3-4 green chilies, 1 tbsp ginger-garlic paste. 
-4. Add chicken, cook 5-7 min. Layer half chicken & rice in a pot, sprinkle mint, coriander, saffron milk. Repeat.
-5. Cover and cook on low heat 20-25 min (dum). Garnish with fried onions. Serve hot.
-"""
