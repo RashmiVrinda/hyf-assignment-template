@@ -1,0 +1,7 @@
+tea_recipe = """
+1. Boil 1 cup water. 
+2. Add 1 tsp tea leaves (or 1 tea bag) and 1-2 tsp sugar. 
+3. Boil 1-2 min. 
+4. Add 1/4 cup milk, simmer 1-2 min. 
+5. Strain and serve hot.
+"""
