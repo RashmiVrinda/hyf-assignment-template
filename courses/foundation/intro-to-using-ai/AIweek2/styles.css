@@ -1,0 +1,130 @@
+/* Base styles */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f3f4f6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main layout */
+.main-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Container box */
+.container {
+  background-color: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  max-width: 900px;
+  width: 100%;
+  padding: 3rem;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #4C9AFF;
+}
+
+.nav a {
+  margin-left: 1rem;
+  text-decoration: none;
+  color: #4b5563;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.nav a:hover {
+  color: #4C9AFF;
+}
+
+/* Text section */
+.text-section {
+  color: #1f2937;
+}
+
+.intro {
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #4C9AFF;
+  margin-bottom: 0.5rem;
+}
+
+.headline {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #111827;
+}
+
+.headline span {
+  color: #9333ea;
+}
+
+.description {
+  color: #374151;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+/* Skills section */
+.skills h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+  border-left: 4px solid #9333ea;
+  padding-left: 0.75rem;
+}
+
+.skills ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.skills li {
+  background-color: #f3e8ff;
+  color: #6b21a8;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.skills li:hover {
+  background-color: #e9d5ff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .headline {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 2rem;
+  }
+}
