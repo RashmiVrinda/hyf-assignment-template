@@ -1,8 +1,8 @@
 
 const getFullName = (firstName, surname, useFormalName, gender) => {
-  if (!firstName && !surname) {
+  if (!firstName?.trim() && !surname?.trim()) {
     return "Name is missing ...";
-  }
+  }//fixed code
 
   let fullName = firstName + " " + surname;
 
