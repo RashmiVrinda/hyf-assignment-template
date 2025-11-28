@@ -2,7 +2,7 @@
 
 function squareDigits(num){
   
-let str = num.toString(); //The toString() method of Number values returns a string representing this number value.
+const str = num.toString(); //The toString() method of Number values returns a string representing this number value.
 let result = "";
 for  ( let i=0; i<str.length; i++){
   if (str[i] === " ") continue; // fix "ignore spaces"
