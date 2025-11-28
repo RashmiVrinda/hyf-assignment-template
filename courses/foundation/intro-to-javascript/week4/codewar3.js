@@ -1,7 +1,7 @@
 //code war 3
 
 function highAndLow(str) {
-  let numbers = str.split(" ").map(Number);  // convert to array of numbers
+  const numbers = str.split(" ").map(Number);  // convert to array of numbers
   
   let highest = numbers[0];
   let lowest = numbers[0];

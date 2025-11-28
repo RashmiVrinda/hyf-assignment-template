@@ -3,12 +3,14 @@
 function squareDigits(num){
   
 let str = num.toString(); //The toString() method of Number values returns a string representing this number value.
-let result = " ";
+let result = "";
 for  ( let i=0; i<str.length; i++){
+  if (str[i] === " ") continue; // fix "ignore spaces"
   let digit = Number(str[i]); // Convert result back to number
   result += (digit * digit); }// result += adds it to the string
   return Number(result);
 }
 
-console.log(squareDigits("3345"));
+console.log(squareDigits("1  5"));
+
 

@@ -1,8 +1,8 @@
 //code war 1 
 
 function getCount(str) {
-  let vowels = ("aeiou");
-  let count = 0;
+  const vowels = ("aeiou");
+  const count = 0;
   for (let char of str)
   {if (vowels.includes(char)){count++;
 
