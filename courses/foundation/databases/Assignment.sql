@@ -7,7 +7,7 @@ SELECT COUNT (*) FROM task WHERE due_date IS NULL
 
 
 --Find all the tasks that are marked as done.
-SELECT * FROM task WHERE status_id = 3
+SELECT task.* FROM task JOIN status ON task.status_id = status.id WHERE status.name = 'Done';
 
 -- (Fixed queries) Find all the tasks that are not marked as done.
 SELECT task.* FROM task JOIN status ON task.status_id = status.id WHERE status.name <> 'Done'
@@ -24,10 +24,10 @@ SELECT title, due_date FROM task WHERE title LIKE '%database%' or description LI
 
 
 --(fixed queries) Get the title and status (as text) of all tasks.
-SELECT  status.name, COUNT(task.id) AS task_count FROM status LEFT JOIN task  ON status.id = task.status_id GROUP BY status.id ORDER BY task_count DESC;
+SELECT task.title, status.name FROM task INNER JOIN status ON task.status_id = status.id;
 
 --Get the name of each status, along with a count of how many tasks have that status.
-SELECT user.name, COUNT (task.id) FROM user JOIN task ON user.id = task.user_id JOIN status ON task.status_id = status.id WHERE status.name = 'Done' GROUP BY user.id;
+SELECT status.name, COUNT(task.id) task_count FROM status LEFT JOIN task ON status.id = task.status_id GROUP BY status.name;
 
 --Get the names of all statuses, sorted by the status with most tasks first.
-SELECT status.name, COUNT(task.id) AS task_count FROM status LEFT JOIN task ON status.id = task.status_id GROUP BY status.id ORDER BY task_count DESC;
+SELECT status.name, COUNT(task.id) task_count FROM status LEFT JOIN task ON status.id = task.status_id GROUP BY status.name ORDER BY task_count DESC;
