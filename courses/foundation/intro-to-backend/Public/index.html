@@ -1,0 +1,24 @@
+
+<html>
+      <head>
+<title>Task Dashboard</title>
+<style>
+ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+ .card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+#count { font-size: 5rem; font-weight: bold; color: #4f46e5; margin: 10px 0; }
+ h1 { color: #333; font-size: 1.5rem; }
+</style>
+</head>
+<body>
+  <div class="card">
+<h1>Total Tasks</h1>
+ <div id="count">...</div>
+  </div>
+ <script>
+ fetch('/task-count').then(r => r.json()).then(d => {
+ document.getElementById('count').innerText = d.total;
+ });
+  </script>
+</body>
+ </html>
+  
