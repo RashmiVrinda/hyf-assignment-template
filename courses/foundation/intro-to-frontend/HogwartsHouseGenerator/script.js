@@ -76,7 +76,7 @@ function retryHouse() {
   giveRandomHouse(name);
 }
 
-// 🔹 NEW: reset when name changes
+//NEW: reset when name changes
 nameInput.addEventListener("input", resetUI);
 
 assignBtn.addEventListener("click", assignHouse);
