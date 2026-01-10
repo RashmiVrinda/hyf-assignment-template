@@ -10,11 +10,12 @@ input, button {
   margin-right: 5px;
 }
 
-#result {
+.result-text {
   margin-top: 15px;
   font-weight: bold;
 }
 
-#description {
+.description-text {
   margin-top: 5px;
 }
+

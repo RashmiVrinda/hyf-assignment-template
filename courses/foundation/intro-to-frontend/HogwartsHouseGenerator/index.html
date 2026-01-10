@@ -9,19 +9,17 @@
     <div class="container">
       <h1>🏰 Hogwarts House Generator</h1>
 
-      <input id="nameInput" type="text" placeholder="Enter your name" />
+      <!-- Label added -->
+      <label for="nameInput">Enter your name:</label>
+      <input id="nameInput" type="text" />
 
       <div class="buttons">
-
-<button id="assignBtn">Get house</button>
-<button id="retryBtn">Try again</button>
-<p id="result"></p>
-<p id="description"></p>
+        <button id="assignBtn" type="button">Get house</button>
+        <button id="retryBtn" type="button">Try again</button>
       </div>
 
       <p id="result"></p>
-
-      <div id="houseInfo"></div>
+      <p id="description"></p>
     </div>
 
     <script src="script.js"></script>

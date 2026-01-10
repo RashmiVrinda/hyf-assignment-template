@@ -54,14 +54,8 @@ function giveRandomHouse(name) {
 function assignHouse() {
   const name = nameInput.value.trim();
 
-  if (name === "") {
-    result.textContent = "Please enter your name.";
-    return;
-  }
-
-  if (hasHouse) {
-    return;
-  }
+  if (!name) return;
+  if (hasHouse) return;
 
   giveRandomHouse(name);
   hasHouse = true;
