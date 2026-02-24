@@ -1,6 +1,8 @@
 Potato
-Capsicum
+Bell Pepper
 Chilli
 Cabbage
 Onion
+Spinach
+Beans
 
