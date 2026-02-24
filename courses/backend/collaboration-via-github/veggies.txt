@@ -1,7 +1,9 @@
-Potato
-Capsicum
 Bell Pepper
 Cabbage
-Onion
-Ginger
+Capscium
 Garlic
+Ginger
+Onion
+Potato
+
+
