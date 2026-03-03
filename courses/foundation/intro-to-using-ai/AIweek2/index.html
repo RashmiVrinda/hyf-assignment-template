@@ -1,52 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me | Cybersecurity & Web Development</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rashmi Das | Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
 </head>
+
 <body>
-    <div class="main-hero">
-        <div class="container">
-            
-            <header class="header">
-                <div class="logo">Rashmi Das</div>
-                <nav class="nav">
-                    <a href="#" id="skillsBtn">Skills</a>
-                    <a href="#">Contact</a>
-                </nav>
-            </header>
+  <div class="layout">
 
-            <section class="content">
-                <div class="text-section">
-                    <h1 class="intro">Hey there,</h1>
-                    <h2 class="headline">I'm a <span>Cybersecurity</span> & Web Development Professional</h2>
-                    <p class="description">
-                        I bridge the gap between <strong>development and security</strong>, helping teams 
-                        build secure web applications, automate security operations, and identify 
-                        vulnerabilities through penetration testing and red team exercises. 
-                        By collaborating closely with developers and system admins, I turn 
-                        technical findings into actionable recommendations that strengthen both 
-                        efficiency and resilience.
-                    </p>
+    <!-- 1) SLIM ICON NAV -->
+    <aside class="nav-sidebar">
+      <div class="brand-logo" title="Portfolio">P</div>
 
-                    <div class="skills">
-                        <h3>Core Skills:</h3>
-                        <ul>
-                            <li>Secure Web Development (HTML, CSS, JS)</li>
-                            <li>Security Operations & Automation</li>
-                            <li>Penetration Testing & Red Teaming</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
+      <nav class="icon-menu" aria-label="Section navigation">
+        <a href="#about" class="nav-btn active" aria-label="About">🏠</a>
+        <a href="#services" class="nav-btn" aria-label="Services">📂</a>
+        <a href="#projects" class="nav-btn" aria-label="Projects">🛠️</a>
+        <a href="#contact" class="nav-btn" aria-label="Contact">✉️</a>
+      </nav>
 
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">
+        🌙
+      </button>
+    </aside>
+
+    <!-- 2) PROFILE SIDEBAR -->
+    <aside class="profile-sidebar">
+      <div class="profile-card">
+        <div class="profile-pic">
+          <!-- Optional: Replace avatar-placeholder with <img src="yourphoto.jpg" alt="Rashmi Das"> -->
+          <div class="avatar-placeholder" aria-hidden="true"></div>
+          <div class="online-status" title="Available"></div>
         </div>
-    </div>
 
-    <!-- Link to your JavaScript file -->
-    <script src="script.js"></script>
+        <h3>Rashmi Das</h3>
+        <p class="subtitle">Cybersecurity &amp; Web Dev</p>
+
+        <div class="social-links" aria-label="Social links">
+          <!-- Add your real links when ready -->
+          <a class="social-pill" href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">in</a>
+          <a class="social-pill" href="#" target="_blank" rel="noopener noreferrer" aria-label="GitHub">git</a>
+          <a class="social-pill" href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter/X">tw</a>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="personal-info">
+        <div class="info-row"><b>Residence:</b> <span>Denmark</span></div>
+        <div class="info-row"><b>Location:</b> <span>Copenhagen</span></div>
+        <div class="info-row"><b>Freelance:</b> <span class="avail">Available</span></div>
+        <div class="info-row"><b>Email:</b> <span class="mono">rashmidas333@outlook.com</span></div>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="skills-section">
+        <h4>Languages</h4>
+
+        <div class="skill-bar">
+          <div class="skill-label"><span>English</span><span>100%</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width: 100%;"></div></div>
+        </div>
+
+        <div class="skill-bar">
+          <div class="skill-label"><span>Danish</span><span>40%</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width: 40%;"></div></div>
+        </div>
+      </div>
+
+      <div class="skills-section">
+        <h4>Core Skills</h4>
+
+        <div class="skill-bar">
+          <div class="skill-label"><span>HTML/CSS</span><span>90%</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width: 90%;"></div></div>
+        </div>
+
+        <div class="skill-bar">
+          <div class="skill-label"><span>JavaScript</span><span>85%</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width: 85%;"></div></div>
+        </div>
+
+        <div class="skill-bar">
+          <div class="skill-label"><span>OWASP / Testing</span><span>80%</span></div>
+          <div class="bar-bg"><div class="bar-fill" style="width: 80%;"></div></div>
+        </div>
+      </div>
+
+      <!-- If you place your CV PDF in the same folder, rename it to Rashmi-Das-CV.pdf and this will work -->
+      <a href="Rashmi-Das-CV.pdf" class="btn-cv" target="_blank" rel="noopener noreferrer">DOWNLOAD CV ⬇</a>
+    </aside>
+
+    <!-- 3) MAIN CONTENT (SCROLL CONTAINER) -->
+    <main class="main-content" id="mainContent" tabindex="-1">
+
+      <!-- ABOUT / HERO -->
+      <section id="about" class="hero-section">
+        <div class="hero-content">
+          <p class="hero-kicker">HEY THERE!</p>
+          <h1>
+            I'm <span class="name-accent">Rashmi Das</span><br />
+            <span>Cybersecurity</span> &amp; Web Development Professional
+          </h1>
+
+          <p>
+            I help teams build secure web applications, automate security operations, and identify vulnerabilities
+            through secure code review and web testing.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn-primary" href="#contact">CONTACT ME →</a>
+            <a class="btn-secondary" href="https://foundation-project-memory-game.onrender.com/" target="_blank" rel="noopener noreferrer">
+              VIEW LIVE PROJECT →
+            </a>
+          </div>
+
+          <div class="hero-tags">
+            <span class="tag">OWASP Top 10</span>
+            <span class="tag">Secure Code Review</span>
+            <span class="tag">Node.js / Express</span>
+            <span class="tag">Burp • Nmap • OpenVAS</span>
+          </div>
+        </div>
+
+        <div class="hero-image" aria-hidden="true">
+          <div class="hero-img-box"></div>
+          <p class="hero-img-caption">Add your photo here (optional)</p>
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+      <section id="services" class="content-block">
+        <h2 class="center-title">My Services</h2>
+        <p class="center-desc">I bridge development and security to deliver secure-by-design web applications.</p>
+
+        <div class="services-grid">
+          <div class="s-card">
+            <div class="s-icon">🛡️</div>
+            <h3>Web Security Testing</h3>
+            <p>Identify vulnerabilities using OWASP Top 10 mindset and practical testing techniques.</p>
+          </div>
+
+          <div class="s-card">
+            <div class="s-icon">💻</div>
+            <h3>Secure Web Development</h3>
+            <p>Build secure web apps with strong input validation, auth patterns, and safe coding practices.</p>
+          </div>
+
+          <div class="s-card">
+            <div class="s-icon">🔍</div>
+            <h3>Security Audit & Code Review</h3>
+            <p>Review codebases and provide actionable fixes to improve security and maintainability.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="content-block">
+        <h2 class="center-title">Projects</h2>
+        <p class="center-desc">Live demos and repositories that show hands-on work.</p>
+
+        <div class="services-grid">
+          <div class="s-card">
+            <div class="s-icon">🎮</div>
+            <h3>Fruity Match Mania (Live)</h3>
+            <p>Interactive memory game with levels, moves, timer, scoring, restart, and UI updates.</p>
+            <a class="btn-link" href="https://foundation-project-memory-game.onrender.com/" target="_blank" rel="noopener noreferrer">
+              Live Demo →
+            </a>
+          </div>
+
+          <div class="s-card">
+            <div class="s-icon">📦</div>
+            <h3>HYF Assignments (GitHub)</h3>
+            <p>Responsive UI components and JavaScript DOM projects from HackYourFuture coursework.</p>
+            <a class="btn-link" href="https://github.com/RashmiVrinda/hyf-assignment-template" target="_blank" rel="noopener noreferrer">
+              GitHub Repo →
+            </a>
+          </div>
+
+          <div class="s-card">
+            <div class="s-icon">🧪</div>
+            <h3>Web App Testing Research</h3>
+            <p>Research on SAST vs DAST, DevSecOps concepts, and securing code & repositories.</p>
+            <span class="hint">Add report link when you upload it</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="content-block">
+        <h2 class="center-title">Contact</h2>
+        <p class="center-desc">Let’s connect for cybersecurity and web development opportunities.</p>
+
+        <div class="contact-card">
+          <div class="contact-row">
+            <span class="contact-label">Email</span>
+            <a class="contact-value" href="mailto:rashmidas333@outlook.com">rashmidas333@outlook.com</a>
+          </div>
+
+          <div class="contact-row">
+            <span class="contact-label">Location</span>
+            <span class="contact-value">Copenhagen, Denmark</span>
+          </div>
+
+          <div class="contact-row">
+            <span class="contact-label">Live Project</span>
+            <a class="contact-value" href="https://foundation-project-memory-game.onrender.com/" target="_blank" rel="noopener noreferrer">
+              Fruity Match Mania →
+            </a>
+          </div>
+
+          <div class="contact-row">
+            <span class="contact-label">GitHub</span>
+            <a class="contact-value" href="https://github.com/RashmiVrinda/hyf-assignment-template" target="_blank" rel="noopener noreferrer">
+              HYF Assignments Repo →
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer class="main-footer">
+        <p>© <span id="year"></span> Rashmi Das. All Rights Reserved.</p>
+      </footer>
+
+    </main>
+  </div>
 </body>
 </html>
