@@ -1,4 +1,4 @@
-import { teas } from "./teas.js";
+import { teas } from "../../teas.js";
 
 const teaPrice = teas.map(price => price.pricePerGram*100);
 

@@ -1,7 +1,7 @@
 // Exercise 14
 //Create a function findTeaById(id, callback) that simulates a database lookup with a 500ms delay.
 
-import { teas } from "../teas.js";
+import { teas } from "../../teas.js";
 // function findTeaById(id, callback) {
 //   setTimeout(() => {
 //     const tea = teas.find(tea => tea.id === id);
