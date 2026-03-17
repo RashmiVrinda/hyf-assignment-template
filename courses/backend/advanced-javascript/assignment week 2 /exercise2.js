@@ -22,14 +22,15 @@ const validateOrder = (order, callback) =>
     callback({ valid: !errors.length, errors });
   }, 200);
 
-    validateOrder(order, (result) => {
-  console.log("Validation result:", result);});
+validateOrder(order, (result) => {
+  console.log("Validation result:", result);
+});
 
 //2. calculateTotal(order, callback) - 300ms delay
 const calculateTotal = (order, callback) =>
   setTimeout(() => {
     const total = order.items.reduce((sum, item) => {
-      const tea = teas.find(t => t.id === item.teaId);
+      const tea = teas.find((t) => t.id === item.teaId);
       return sum + tea.pricePerGram * item.grams;
     }, 0);
 
@@ -47,11 +48,11 @@ const checkStock = (order, callback) =>
   setTimeout(() => {
     const shortages = order.items
       .filter((item) => {
-        const tea = teas.find(t => t.id === item.teaId);
+        const tea = teas.find((t) => t.id === item.teaId);
         return tea && tea.stockCount < item.grams;
       })
       .map((item) => {
-        const tea = teas.find(t => t.id === item.teaId);
+        const tea = teas.find((t) => t.id === item.teaId);
         return `${tea.name} only has ${tea.stockCount}g, but ${item.grams}g was ordered`;
       });
     callback({
@@ -60,6 +61,8 @@ const checkStock = (order, callback) =>
       shortages: shortages,
     });
   }, 400);
-    checkStock(order, (result) => {
+checkStock(order, (result) => {
   console.log("Stock result:", result);
 });
+
+export { order, validateOrder, calculateTotal, checkStock };
