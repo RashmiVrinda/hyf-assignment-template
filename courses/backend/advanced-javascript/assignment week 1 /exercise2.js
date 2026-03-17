@@ -19,7 +19,7 @@
 //   totalInventoryValue: 234.55,  // example number
 //   averagePrice: 0.21           // example number
 // }
-import { teas } from "./teas.js";
+import { teas } from "../teas.js";
 function inventoryReport(teas) {
   const totalTeas = teas.length;
   const inStock = teas.filter(tea => tea.stockCount>0).length;

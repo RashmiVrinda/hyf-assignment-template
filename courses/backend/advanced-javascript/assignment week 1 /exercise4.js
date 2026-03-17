@@ -12,7 +12,7 @@
 //   China: ["Dragon Well", "White Peony", ...],
 //   // ...
 // }
-import { teas } from "./teas.js";
+import { teas } from "../teas.js";
 function teasByOrigin(teas) {
   return teas.reduce((result, tea) => {
     if (!result[tea.origin]) {

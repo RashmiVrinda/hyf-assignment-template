@@ -1,4 +1,4 @@
-import { teas } from "./teas.js";
+import { teas } from "../../teas.js";
 
 let organicCount = 0;
 

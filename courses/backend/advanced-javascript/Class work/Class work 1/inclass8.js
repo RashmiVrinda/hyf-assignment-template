@@ -1,4 +1,4 @@
-import { teas } from "./teas.js";
+import { teas } from "../../teas.js";
 // teas.filter(tea => {
 //   console.log(`${tea.name} (${tea.origin})`);
 // });

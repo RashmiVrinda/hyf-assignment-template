@@ -14,7 +14,7 @@
 //   // ...
 // ];
 
-import { teas } from "./teas.js";
+import { teas } from "../teas.js";
 function lowStockAlert(teas) {
   return teas
     .filter((tea) => tea.stockCount < 50)

@@ -16,7 +16,7 @@
 // console.log(searchTeas(teas, "ch"));
 // // Returns: ["English Breakfast", "Genmaicha", "Lapsang Souchong"]
 
-import { teas } from "./teas.js";
+import { teas } from "../teas.js";
 
 const searchTeas = (teas, query) => {
   return teas

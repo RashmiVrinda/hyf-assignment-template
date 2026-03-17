@@ -6,7 +6,7 @@
 // console.log(groupedByOrigin);
 // // Expected: { Japan: ["Sencha", "Matcha", ...], China: [...], ... }
 
-import { teas } from "./teas.js";
+import { teas } from "../../teas.js";
 const groupedByOrigin = teas.reduce((groups, tea) => {
 
   groups[tea.origin]

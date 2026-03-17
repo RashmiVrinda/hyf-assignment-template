@@ -1,7 +1,7 @@
 //Rewrite with array methods
 
 // Example structure for exercise1.js
-import { teas } from "./teas.js";
+import { teas } from "../teas.js";
 
 
 // const result = [];
