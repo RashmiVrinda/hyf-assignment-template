@@ -8,20 +8,19 @@
 import fs from "fs";
 import { teas } from "../teas.js";
 
-
 function generateInventoryReport(callback) {
   fs.readFile("./inventory-updates.json", "utf8", (error, data) => {
     if (error) {
       callback(error, null);
       return;
     }
-const updates = JSON.parse(data);
-const changes = updates.reduce((acc,item) => {
-    acc[item.teaId] = (acc[item.teaId] || 0) + item.change;
-    return acc;
-}, {});
+    const updates = JSON.parse(data);
+    const changes = updates.reduce((acc, item) => {
+      acc[item.teaId] = (acc[item.teaId] || 0) + item.change;
+      return acc;
+    }, {});
 
-const reportLines = teas.map((tea) => {
+    const reportLines = teas.map((tea) => {
       let change;
       if (changes[tea.id]) {
         change = changes[tea.id];
@@ -54,9 +53,8 @@ const reportLines = teas.map((tea) => {
   });
 }
 
-
 generateInventoryReport((error, report) => {
-  if (error) {  
+  if (error) {
     console.error("Failed:", error.message);
     return;
   }
