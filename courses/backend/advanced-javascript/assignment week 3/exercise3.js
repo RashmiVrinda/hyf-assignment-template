@@ -1,7 +1,6 @@
 // Exercise 3: Order Calculator ⭐
 // Create a function that calculates the total for an order:
 
-
 const API_BASE = "https://tea-api-787553294298.europe-west1.run.app/api";
 
 async function calculateOrderTotal(items) {
@@ -9,18 +8,21 @@ async function calculateOrderTotal(items) {
   if (!res.ok) throw new error("Could not fetch tea list");
   const allTeas = await res.json();
   let totalPrice = 0;
-  for (const item of items ){
-    const matchedTea = allTeas.find((singleTea)=> singleTea.id === item.teaId);
-  
-{if(!matchedTea){
-    throw new Error (`Tea with ID ${item.teaId} does not exist in out database`);}
+  for (const item of items) {
+    const matchedTea = allTeas.find((singleTea) => singleTea.id === item.teaId);
 
-}
-const itemCost = matchedTea.pricePerGram * item.grams;
-totalPrice += itemCost; 
-}
+    {
+      if (!matchedTea) {
+        throw new Error(
+          `Tea with ID ${item.teaId} does not exist in out database`,
+        );
+      }
+    }
+    const itemCost = matchedTea.pricePerGram * item.grams;
+    totalPrice += itemCost;
+  }
 
-return totalPrice
+  return totalPrice;
 }
 const order = [
   { teaId: 1, grams: 100 },
