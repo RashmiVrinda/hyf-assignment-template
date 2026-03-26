@@ -3,7 +3,7 @@
 
 const API_BASE = "https://tea-api-787553294298.europe-west1.run.app/api";
 
-export async function calculateOrderTotal(items) {
+async function calculateOrderTotal(items) {
   const res = await fetch(`${API_BASE}/teas`);
   if (!res.ok) throw new error("Could not fetch tea list");
   const allTeas = await res.json();
