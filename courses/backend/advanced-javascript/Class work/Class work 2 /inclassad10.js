@@ -1,7 +1,7 @@
 // Exercise 10
 
 // Create your own myMap(array, callback) function that works like the built-in map.
-import { teas } from "./teas.js";
+import { teas } from "../../teas.js";
 const myMap = (array, callback) => {
   const result = [];
   for (let i = 0; i < array.length; i++) {

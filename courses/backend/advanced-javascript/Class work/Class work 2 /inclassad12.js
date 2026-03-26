@@ -1,5 +1,5 @@
 
-import { teas } from "./teas.js";
+import { teas } from "../../teas.js";
 
 
 console.log("1. Starting");

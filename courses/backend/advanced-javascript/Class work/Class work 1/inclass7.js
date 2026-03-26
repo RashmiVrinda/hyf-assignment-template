@@ -1,5 +1,5 @@
 
-import { teas } from "./teas.js";
+import { teas } from "../../teas.js";
 
 const teaOrganic = teas.filter(tea => tea.organic);
 

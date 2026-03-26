@@ -2,7 +2,7 @@
 
 // Use reduce to calculate the total stockCount across all teas.
 
-import { teas } from "./teas.js";
+import { teas } from "../../teas.js";
 
 const totalStock = teas.reduce((sum, tea) => {
 return sum + tea.stockCount;
