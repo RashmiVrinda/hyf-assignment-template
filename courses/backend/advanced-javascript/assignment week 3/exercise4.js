@@ -1,7 +1,7 @@
 // Exercise 4: Stock Check ⭐
 // Create a function that checks if all items in an order are in stock:
 const API_BASE = "https://tea-api-787553294298.europe-west1.run.app/api";
-async function checkOrderStock(items) {
+export async function checkOrderStock(items) {
   const shortages = [];
   const inventoryPromises = items.map(async (item, index) => {
     const itemNum = index + 1;
@@ -41,3 +41,4 @@ checkOrderStock(largeOrder).then((result) => {
     });
   }
 });
+
