@@ -23,7 +23,7 @@ const tasks = [
     }, 200),
   (done) =>
     setTimeout(() => {
-      console.log("Task 3");
+      console.log("Task 3");clearInterval
       done();
     }, 100),
 ];
