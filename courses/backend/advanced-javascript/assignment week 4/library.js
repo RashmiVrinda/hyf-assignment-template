@@ -133,3 +133,31 @@ export class Inventory {
     }, 0);
   }
 }
+
+export class Customer {
+  constructor(name, email) {
+    this.name = name;
+    this.email = email;
+    this.orders = [];
+  }
+  placeOrder(order) {
+    order.status = "confirmed";
+    this.orders.push(order);
+    return order;
+  }
+  totalSpent() {
+    return this.orders.reduce((sum, order) => sum + order.getTotal(), 0);
+  }
+  getOrderHistory() {
+    let history = `${this.name} (${this.email}) - ${this.orders.length} orders\n\n`;
+    this.orders.forEach((order, index) => {
+      history += `Order ${index + 1} (${order.status})- ${order.items.length} items\n`;
+      order.items.forEach((item) => {
+        history += `${item.describe()}\n`;
+      });
+      history += `Total: ${order.getTotal().toFixed(2)} DKK\n\n`;
+    });
+    history += `Lifetime total: ${this.totalSpent().toFixed(2)} DKK`;
+    return history;
+  }
+}
