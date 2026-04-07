@@ -161,3 +161,51 @@ export class Customer {
     return history;
   }
 }
+
+export class TeaShop {
+  constructor(teaData) {
+    this.catalog = teaData.map(Tea.fromObject);
+    this.inventory = new Inventory();
+    this.catalog.forEach((tea) => {
+      const raw = teaData.find((t) => t.name === tea.name);
+      this.inventory.add(tea, raw.stockCount);
+    });
+    this.customers = [];
+  }
+
+  registerCustomer(name, email) {
+    const newCustomer = new Customer(name, email);
+    this.customers.push(newCustomer);
+    return newCustomer;
+  }
+
+  createOrder(customer, items) {
+    const order = new Order();
+    items.forEach((itemRequest) => {
+      const tea = this.catalog.find((t) => t.name === itemRequest.teaName);
+      if (!tea) throw new Error(`Tea ${itemRequest.teaName} not found.`);
+      this.inventory.sell(itemRequest.teaName, itemRequest.grams);
+      order.addItem(new OrderItem(tea, itemRequest.grams));
+    });
+    customer.placeOrder(order);
+    return order;
+  }
+
+  getReport() {
+    const totalOrders = this.customers.reduce(
+      (sum, c) => sum + c.orders.length,
+      0,
+    );
+    const totalRevenue = this.customers.reduce(
+      (sum, c) => sum + c.totalSpent(),
+      0,
+    );
+    const lowStock = this.inventory.getLowStock(50);
+    return ` @@ TEA SHOP REPORT @@
+Total Customers: ${this.customers.length}
+Total Orders:    ${totalOrders}
+Total Revenue:   ${totalRevenue.toFixed(2)} DKK
+Low Stock Items: ${lowStock.length}
+-********-`;
+  }
+}
