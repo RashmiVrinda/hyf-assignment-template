@@ -1,8 +1,8 @@
 // library.js
 
-import { teas as teaData } from "../teas.js"; // Rename the import to avoid conflict
+import { teas as teaData } from "../teas.js";
 
-export class Tea { // Capital 'T' and singular is the standard for classes
+export class Tea {
   constructor(name, type, origin, pricePerGram, organic) {
     if (typeof name !== "string" || name.trim() === "") {
       throw new Error("Name is required");
@@ -35,11 +35,15 @@ export class Tea { // Capital 'T' and singular is the standard for classes
   }
 
   static fromObject(obj) {
-    return new Tea(obj.name, obj.type, obj.origin, obj.pricePerGram, obj.organic);
+    return new Tea(
+      obj.name,
+      obj.type,
+      obj.origin,
+      obj.pricePerGram,
+      obj.organic,
+    );
   }
 }
-
-// Add the OrderItem and Order classes here too so you can export them!
 
 export class OrderItem {
   constructor(tea, grams) {
@@ -76,10 +80,56 @@ export class Order {
   }
 
   getSummary() {
-  const list = this.items.reduce((acc, item) => acc + `  ${item.describe()}\n`, "");
-  
-  return `Order (${this.status}) - ${this.items.length} items\n` + 
-         list + 
-         `Total: ${this.getTotal().toFixed(2)} DKK`;
+    const list = this.items.reduce(
+      (acc, item) => acc + `  ${item.describe()}\n`,
+      "",
+    );
+
+    return (
+      `Order (${this.status}) - ${this.items.length} items\n` +
+      list +
+      `Total: ${this.getTotal().toFixed(2)} DKK`
+    );
+  }
 }
+
+export class Inventory {
+  constructor() {
+    this.items = {};
+  }
+
+  add(tea, stockCount) {
+    this.items[tea.name] = {
+      tea,
+      stockCount,
+    };
+  }
+  sell(teaName, grams) {
+    if (!this.items[teaName]) {
+      throw new Error(`Tea "${teaName}" not found in inventory.`);
+    }
+
+    if (this.items[teaName].stockCount < grams) {
+      throw new Error(`Not enough stock for ${teaName}`);
+    }
+    this.items[teaName].stockCount -= grams;
+  }
+  restock(teaName, grams) {
+    if (this.items[teaName]) {
+      this.items[teaName].stockCount += grams;
+    }
+  }
+  getStock(teaName) {
+    return this.items[teaName] ? this.items[teaName].stockCount : 0;
+  }
+  getLowStock(threshold) {
+    return Object.values(this.items).filter(
+      (item) => item.stockCount < threshold,
+    );
+  }
+  getTotalValue() {
+    return Object.values(this.items).reduce((total, item) => {
+      return total + item.tea.pricePerGram * item.stockCount;
+    }, 0);
+  }
 }
