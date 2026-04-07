@@ -44,7 +44,7 @@ export class Tea {
     );
   }
 }
-
+// Exercise 2: Order System
 export class OrderItem {
   constructor(tea, grams) {
     if (typeof grams !== "number" || grams <= 0) {
@@ -92,7 +92,7 @@ export class Order {
     );
   }
 }
-
+//Exercise 3: Inventory Manager
 export class Inventory {
   constructor() {
     this.items = {};
@@ -133,7 +133,7 @@ export class Inventory {
     }, 0);
   }
 }
-
+//Exercise 4: Customer with History
 export class Customer {
   constructor(name, email) {
     this.name = name;
@@ -162,6 +162,7 @@ export class Customer {
   }
 }
 
+//Exercise 5: Full Tea Shop System
 export class TeaShop {
   constructor(teaData) {
     this.catalog = teaData.map(Tea.fromObject);
@@ -209,3 +210,56 @@ Low Stock Items: ${lowStock.length}
 -********-`;
   }
 }
+
+//Exercise 6: Inheritance 
+
+export class PremiumTea extends Tea {
+  constructor(name, type, origin, pricePerGram, organic, grade) {
+    super(name, type, origin, pricePerGram, organic);
+    
+    const validGrades = ["A", "B", "C"];
+    if (!validGrades.includes(grade)) throw new Error("Invalid grade");
+    this.grade = grade;
+  }
+
+  // Override: We change the price calculation logic
+  priceFor(grams) {
+    const basePrice = super.priceFor(grams);
+    const markups = { A: 1.5, B: 1.25, C: 1.1 };
+    return basePrice * markups[this.grade];
+  }
+
+  // Override: We add the [Grade] tag to the description
+  describe() {
+  // Calculate the premium price for 100g
+  const premiumPrice = this.priceFor(100).toFixed(2);
+  return `${this.name} [Grade ${this.grade}] (${this.type}) from ${this.origin} - ${premiumPrice} DKK/100g${this.organic ? " [organic]" : ""}`;
+}
+  static fromTea(tea, grade) {
+    return new PremiumTea(tea.name, tea.type, tea.origin, tea.pricePerGram, tea.organic, grade);
+  }
+}
+export class ExpressOrder extends Order {
+  constructor(expressFee = 25) {
+    super(); // Initialize the basic Order (empty items, status pending)
+    this.expressFee = expressFee;
+  }
+
+  // Override: Add the fee to the base total
+  getTotal() {
+    return super.getTotal() + this.expressFee;
+  }
+
+  // Override: Add a special line for the express fee
+  getSummary() {
+    let summary = super.getSummary();
+    // We insert the fee line before the final total line
+    return summary.replace("Total:", `Express Fee: ${this.expressFee.toFixed(2)} DKK\nTotal:`);
+  }
+}
+
+
+//Output 
+
+
+
