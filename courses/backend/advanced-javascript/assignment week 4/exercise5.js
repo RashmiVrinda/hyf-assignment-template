@@ -4,7 +4,6 @@ import { Order, OrderItem } from "./exercise2.js";
 import { Inventory } from "./exercise3.js";
 import { Customer } from "./exercise4.js";
 
-
 export class TeaShop {
   constructor(teaData) {
     this.catalog = teaData.map(Tea.fromObject);
@@ -24,13 +23,20 @@ export class TeaShop {
 
   createOrder(customer, items) {
     const order = new Order();
-   items.forEach(({ teaName, grams }) => {
-  const tea = this.catalog.find((t) => t.name === teaName);
-  if (!tea) throw new Error(`Tea ${teaName} not found.`);
+    const validatedItems = items.map(({ teaName, grams }) => {
+      const tea = this.catalog.find((t) => t.name === teaName);
+      if (!tea) throw new Error(`Tea ${teaName} not found.`);
+      const stock = this.inventory.getStock(teaName);
+      if (stock < grams) {
+        throw new Error(`Not enough stock for ${teaName}`);
+      }
+      return { tea, teaName, grams };
+    });
+    validatedItems.forEach(({ tea, teaName, grams }) => {
+      this.inventory.sell(teaName, grams);
+      order.addItem(new OrderItem(tea, grams));
+    });
 
-  this.inventory.sell(teaName, grams);
-  order.addItem(new OrderItem(tea, grams));
-});
     customer.placeOrder(order);
     return order;
   }
