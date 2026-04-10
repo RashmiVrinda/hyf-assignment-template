@@ -1,16 +1,12 @@
-// Exercise 1: Tea Class with Validation
-// Build a complete Tea class with validation and a static factory method.
-
 import { teas } from "../teas.js";
+const VALID_TEA_TYPES = ["green", "black", "herbal", "oolong", "white"];
 
-class Tea {
+export class Tea {
   constructor(name, type, origin, pricePerGram, organic) {
     if (typeof name !== "string" || name.trim() === "") {
       throw new Error("Name is required");
     }
-
-    const validTypes = ["green", "black", "herbal", "oolong", "white"];
-    if (!validTypes.includes(type)) {
+    if (!VALID_TEA_TYPES.includes(type)) {
       throw new Error(`Invalid type: ${type}`);
     }
     if (typeof pricePerGram !== "number" || pricePerGram <= 0) {
@@ -28,10 +24,9 @@ class Tea {
   }
 
   describe() {
-    const priceDisplay = (this.pricePerGram * 100).toFixed(2);
-    const organicSuffix = this.organic ? " [organic]" : "";
-    return `${this.name} 
-    (${this.type}) from ${this.origin} - ${priceDisplay} DKK/100g${organicSuffix}`;
+    const price = (this.pricePerGram * 100).toFixed(2);
+    const organicText = this.organic ? " [organic]" : "";
+    return `${this.name} (${this.type}) from ${this.origin} - ${price} DKK/100g${organicText}`;
   }
 
   static fromObject(obj) {
