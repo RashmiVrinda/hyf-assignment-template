@@ -30,7 +30,7 @@ export class Inventory {
     if (this.items[teaName]) {
       this.items[teaName].stockCount += grams;
     } else {
-        throw new Error(`Tea "${teaName}" not found in inventory.`);
+      throw new Error(`Tea "${teaName}" not found in inventory.`);
     }
   }
   getStock(teaName) {
@@ -42,8 +42,10 @@ export class Inventory {
     );
   }
   getTotalValue() {
-    return Object.values(this.items).reduce((total, item) => 
-      total + item.tea.pricePerGram * item.stockCount, 0);
+    return Object.values(this.items).reduce(
+      (total, item) => total + item.tea.pricePerGram * item.stockCount,
+      0,
+    );
   }
 }
 

@@ -1,12 +1,8 @@
-// Exercise 2: Order System
-// Build OrderItem and Order classes that work together.
 
 import { teas } from "../teas.js";
 import { Tea } from "./exercise1.js";
 
-
- 
- export class OrderItem {
+export class OrderItem {
   constructor(tea, grams) {
     if (typeof grams !== "number" || grams <= 0) {
       throw new Error("Grams must be a positive number");
@@ -58,8 +54,7 @@ export class Order {
 const teaInstances = teas.map(Tea.fromObject);
 const order = new Order();
 
-
-order.addItem(new OrderItem(teaInstances[0], 200));  // Sencha
+order.addItem(new OrderItem(teaInstances[0], 200)); // Sencha
 order.addItem(new OrderItem(teaInstances[7], 50)); // Matcha
 
 console.log(order.getSummary());
