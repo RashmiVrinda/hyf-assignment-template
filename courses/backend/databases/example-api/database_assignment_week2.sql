@@ -131,29 +131,6 @@ SELECT * FROM user WHERE id = 1;
 SELECT name, id FROM user WHERE id = 2;
 SELECT COUNT(*) FROM task WHERE user_id = 2;
 
-
-
--- Part 3, Q2
--- Demonstrate a deliberate rollback.
--- Make some changes, then trigger a failure so everything rolls back.
-
-BEGIN TRANSACTION;
--- Update all task titles to something generic
-UPDATE task
-SET title = 'This should not stay';
-
--- Delete all users
-DELETE FROM user;
-
--- Realizing a mistake was made or a condition wasn't met
-ROLLBACK;
-
--- Verify nothing changed:
-SELECT COUNT(*) FROM user;
-SELECT title FROM task LIMIT 1;
-
-
-
 -- Part 3, Q2
 -- Demonstrate a deliberate rollback.
 -- Make some changes, then trigger a failure so everything rolls back.
