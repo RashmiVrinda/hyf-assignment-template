@@ -30,6 +30,11 @@ datetime('now'),
 date('now', '+7 days'),
 2);
 
+INSERT INTO user_task (user_id, task_id)
+VALUES (
+    (SELECT id FROM user WHERE name = 'Rashmi'),
+    (SELECT id FROM task WHERE title = 'Learn SQL')
+);
 -- 3- Update the title of the task you just created to "Master SQL Basics"
 UPDATE task 
 SET title = 'Master SQL Basics', 
@@ -52,6 +57,8 @@ updated = datetime('now')
 WHERE
 id = 40;
 --6 Delete one of the tasks in the database (choose any task)
+DELETE FROM user_task 
+WHERE task_id = 32;
 DELETE FROM task
 WHERE id = 32;
 
@@ -77,9 +84,11 @@ JOIN status s ON t.status_id = s.id
 WHERE s.name = 'Done';
 
 --3- Find all overdue tasks (due_date is earlier than today)
-SELECT id, title, due_date
+
+SELECT title, due_date, updated
 FROM task
-WHERE due_date < date('now');
+WHERE status_id = 3
+AND date(updated) > date(due_date);
 
 --Part 3: Modifying the Database Schema--
 
