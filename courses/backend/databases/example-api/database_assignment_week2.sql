@@ -130,7 +130,7 @@ COMMIT;
 SELECT * FROM user WHERE id = 1;
 SELECT name, id FROM user WHERE id = 2;
 SELECT COUNT(*) FROM task WHERE user_id = 2;
-
+ 
 -- Part 3, Q2
 -- Demonstrate a deliberate rollback.
 -- Make some changes, then trigger a failure so everything rolls back.
