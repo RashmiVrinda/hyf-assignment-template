@@ -235,6 +235,84 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "Snippet : Search Engine Test :?title=Database",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/snippets?title=database",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "snippets"
+          ],
+          "query": [
+            {
+              "key": "title",
+              "value": "database"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Snippet : Search Engine Test :?title=Database",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/snippets?title=Knex",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "snippets"
+          ],
+          "query": [
+            {
+              "key": "title",
+              "value": "Knex"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Snippet : Search Engine Test :?title=1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/snippets?title=1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "snippets"
+          ],
+          "query": [
+            {
+              "key": "title",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }

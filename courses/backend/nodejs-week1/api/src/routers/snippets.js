@@ -1,28 +1,37 @@
 import express from "express";
 import db from "../../../db.js";
- const router = express.Router()
+const router = express.Router();
 // 1. The GET route //.
- router.get("/", async (req, res) => {
-    const searchTerm = req.query.title; // Get the search term from the URL
+router.get("/", async (req, res) => {
+  const search = req.query.title || req.query.search;
 
-    try {
-        let query = db("snippets").select("*");
-        if (searchTerm) {
-            query = query.where("title", "like", `%${searchTerm}%`);
+  try {
+    let query = db("snippets").select("*");
+    if (search) {
+      query = query.where(function () {
+        this.where("title", "like", `%${search}%`).orWhere(
+          "contents",
+          "like",
+          `%${search}%`,
+        );
+
+        if (!isNaN(search)) {
+          this.orWhere("id", search);
+        }
+      });
     }
 
-        const snippets = await query;
-        res.status(200).json(snippets);
-    } catch (error) {
-        res.status(500).json({ error: "Internal Server Error" });
-    }
- });
+    const snippets = await query;
+    res.status(200).json(snippets);
+  } catch (error) {
+    console.error(error); // Good to log the error for yourself
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
+// 2. The POST route //
 
-
- // 2. The POST route //
-
- router.post("/", async (req, res) => {
+router.post("/", async (req, res) => {
   const { title, contents } = req.body;
 
   if (!title || !contents) {
@@ -58,7 +67,9 @@ router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { title, contents } = req.body;
   try {
-    const updated = await db("snippets").where({ id }).update({ title, contents });
+    const updated = await db("snippets")
+      .where({ id })
+      .update({ title, contents });
     if (!updated) {
       return res.status(404).json({ error: "Snippet not found" });
     }
@@ -81,4 +92,4 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to delete" });
   }
 });
- export default router;
+export default router;
