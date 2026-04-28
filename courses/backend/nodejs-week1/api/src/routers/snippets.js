@@ -5,6 +5,9 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   const search = req.query.title || req.query.search;
 
+  if (search === "") {
+    return res.status(400).json({ error: "Search query cannot be empty" });
+  }
   try {
     let query = db("snippets").select("*");
     if (search) {
