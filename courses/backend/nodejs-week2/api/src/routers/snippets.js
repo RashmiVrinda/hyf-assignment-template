@@ -30,11 +30,11 @@ router.get("/", async (req, res) => {
         .json({ error: "Invalid sort column or direction" });
     }
   }
-// Part B - Extension 1: Search Filter
-if (req.query.search) {
-  const searchTerm = req.query.search.toString();
-  query = query.where("title", "like", `%${searchTerm}%`);
-}
+  // Part B - Extension 1: Search Filter
+  if (req.query.search) {
+    const searchTerm = req.query.search.toString();
+    query = query.where("title", "like", `%${searchTerm}%`);
+  }
   console.log("SQL", query.toSQL().sql);
 
   try {
@@ -49,7 +49,6 @@ if (req.query.search) {
 // Part B - Extension 2: GET /random //
 router.get("/random", async (req, res) => {
   try {
- 
     const snippet = await db("snippets").orderByRaw("RANDOM()").first();
 
     if (!snippet) {
@@ -70,7 +69,9 @@ router.post("/", async (req, res) => {
 
   // Validate: Required fields must be present and non-empty
   if (!title || !contents || title.trim() === "" || contents.trim() === "") {
-    return res.status(400).json({ error: "Title and contents are required and cannot be empty" });
+    return res
+      .status(400)
+      .json({ error: "Title and contents are required and cannot be empty" });
   }
 
   try {
@@ -89,20 +90,22 @@ router.get("/:id", async (req, res) => {
 
   // Validate: ID must be a number
   if (isNaN(Number(id))) {
-    return res.status(400).json({ error: "Invalid ID format. ID must be a number." });
+    return res
+      .status(400)
+      .json({ error: "Invalid ID format. ID must be a number." });
   }
 
   try {
     const snippet = await db("snippets").where({ id }).first();
-    
+
     if (!snippet) {
       return res.status(404).json({ error: "Snippet not found" });
     }
 
     res.status(200).json(snippet);
   } catch (error) {
-    console.error("GET Snippet Error:", error); 
-    res.status(500).json({ error: "Internal Server Error" }); 
+    console.error("GET Snippet Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -123,7 +126,9 @@ router.put("/:id", async (req, res) => {
   }
 
   try {
-    const updated = await db("snippets").where({ id }).update({ title, contents });
+    const updated = await db("snippets")
+      .where({ id })
+      .update({ title, contents });
 
     if (!updated) {
       return res.status(404).json({ error: "Snippet not found" });
@@ -154,4 +159,12 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// Part C: The Catch-all Error Handler
+router.use((err, req, res, next) => {
+  console.error("SERVER ERROR:", err.stack);
+
+  res.status(500).json({
+    error: "An unexpected server error occurred. Please try again later.",
+  });
+});
 export default router;
