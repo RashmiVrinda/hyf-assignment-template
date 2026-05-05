@@ -63,48 +63,67 @@ router.get("/random", async (req, res) => {
   }
 });
 
-// 2. POST /
+// 2. POST /- Part - C
 
 router.post("/", async (req, res) => {
   const { title, contents } = req.body;
 
-  if (!title || !contents) {
-    return res.status(400).json({ error: "Title and contents are required" });
+  // Validate: Required fields must be present and non-empty
+  if (!title || !contents || title.trim() === "" || contents.trim() === "") {
+    return res.status(400).json({ error: "Title and contents are required and cannot be empty" });
   }
 
   try {
     const [id] = await db("snippets").insert({ title, contents });
     res.status(201).json({ id, title, contents });
   } catch (error) {
-    res.status(500).json({ error: "Failed to create snippet" });
-  }
-});
-
-// 3. GET /:id
-
-router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const snippet = await db("snippets").where({ id }).first();
-    if (!snippet) {
-      return res.status(404).json({ error: "Snippet not found" });
-    }
-    res.status(200).json(snippet);
-  } catch (error) {
+    console.error("POST Snippet Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// 4. PUT /:id
+// 3. GET /:id - PART - C
+
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  // Validate: ID must be a number
+  if (isNaN(Number(id))) {
+    return res.status(400).json({ error: "Invalid ID format. ID must be a number." });
+  }
+
+  try {
+    const snippet = await db("snippets").where({ id }).first();
+    
+    if (!snippet) {
+      return res.status(404).json({ error: "Snippet not found" });
+    }
+
+    res.status(200).json(snippet);
+  } catch (error) {
+    console.error("GET Snippet Error:", error); 
+    res.status(500).json({ error: "Internal Server Error" }); 
+  }
+});
+
+// 4. PUT /:id -m PART - C
 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { title, contents } = req.body;
 
+  // Validate ID//
+  if (isNaN(Number(id))) {
+    return res.status(400).json({ error: "Invalid ID format" });
+  }
+
+  // Validate Body//
+  if (!title || !contents || title.trim() === "" || contents.trim() === "") {
+    return res.status(400).json({ error: "Title and contents are required" });
+  }
+
   try {
-    const updated = await db("snippets")
-      .where({ id })
-      .update({ title, contents });
+    const updated = await db("snippets").where({ id }).update({ title, contents });
 
     if (!updated) {
       return res.status(404).json({ error: "Snippet not found" });
@@ -112,7 +131,8 @@ router.put("/:id", async (req, res) => {
 
     res.status(200).json({ id, title, contents });
   } catch (error) {
-    res.status(500).json({ error: "Failed to update" });
+    console.error("PUT Snippet Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
