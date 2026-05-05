@@ -30,7 +30,11 @@ router.get("/", async (req, res) => {
         .json({ error: "Invalid sort column or direction" });
     }
   }
-
+// Part B - Extension 1: Search Filter
+if (req.query.search) {
+  const searchTerm = req.query.search.toString();
+  query = query.where("title", "like", `%${searchTerm}%`);
+}
   console.log("SQL", query.toSQL().sql);
 
   try {
@@ -39,6 +43,23 @@ router.get("/", async (req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Part B - Extension 2: GET /random //
+router.get("/random", async (req, res) => {
+  try {
+ 
+    const snippet = await db("snippets").orderByRaw("RANDOM()").first();
+
+    if (!snippet) {
+      return res.status(404).json({ error: "No snippets found" });
+    }
+
+    res.status(200).json(snippet);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
