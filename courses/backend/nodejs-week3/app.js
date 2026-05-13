@@ -3,6 +3,7 @@ import express from "express";
 import snippetsRouter from "./api/src/routers/snippets.js";
 import tagsRouter from "./api/src/routers/tags.js";
 import usersRouter from "./api/src/routers/users.js";; // 2. Import your new users router
+import 'dotenv/config';
 const app = express();
 app.use(express.json());
 

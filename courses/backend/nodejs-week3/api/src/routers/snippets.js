@@ -1,21 +1,15 @@
 import express from "express";
 import db from "../../../db.js";
+import authenticateToken from "../auth.js"; // Added the security guard import
 
 const router = express.Router();
 
 // 1. GET /
-
 router.get("/", async (req, res) => {
   let query = db.select("*").from("snippets");
   const allowedColumns = ["id", "title", "contents"];
 
-  if (req.query.sort) //safe version //
-  //const orderBy = req.query.sort.toString();//
-  //   if (orderBy.length > 0) {
-  //     query = query.orderByRaw(orderBy); // Vulnerable!
-  //   }
-  // }
-  {
+  if (req.query.sort) {
     const orderBy = req.query.sort.toString();
     const direction = (req.query.dir || "asc").toLowerCase();
     const validDirections = ["asc", "desc"];
@@ -30,11 +24,13 @@ router.get("/", async (req, res) => {
         .json({ error: "Invalid sort column or direction" });
     }
   }
+  
   // Part B - Extension 1: Search Filter
   if (req.query.search) {
     const searchTerm = req.query.search.toString();
     query = query.where("title", "like", `%${searchTerm}%`);
   }
+  
   console.log("SQL", query.toSQL().sql);
 
   try {
@@ -63,8 +59,8 @@ router.get("/random", async (req, res) => {
 });
 
 // 2. POST /- Part - C
-
-router.post("/", async (req, res) => {
+// I added 'authenticateToken' here. Now this route is protected!
+router.post("/", authenticateToken, async (req, res) => {
   const { title, contents } = req.body;
 
   // Validate: Required fields must be present and non-empty
@@ -75,7 +71,13 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    const [id] = await db("snippets").insert({ title, contents });
+    // REMOVED user_id from here because the database table doesn't have it!
+    const [id] = await db("snippets").insert({ 
+        title, 
+        contents
+    });
+    
+    // Return the response without authorId for now
     res.status(201).json({ id, title, contents });
   } catch (error) {
     console.error("POST Snippet Error:", error);
@@ -84,7 +86,6 @@ router.post("/", async (req, res) => {
 });
 
 // 3. GET /:id - PART - C
-
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -110,7 +111,6 @@ router.get("/:id", async (req, res) => {
 });
 
 // 4. PUT /:id -m PART - C
-
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { title, contents } = req.body;
@@ -142,7 +142,6 @@ router.put("/:id", async (req, res) => {
 });
 
 // 5. DELETE /:id
-
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -167,4 +166,5 @@ router.use((err, req, res, next) => {
     error: "An unexpected server error occurred. Please try again later.",
   });
 });
+
 export default router;
