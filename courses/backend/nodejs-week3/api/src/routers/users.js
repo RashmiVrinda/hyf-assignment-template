@@ -27,32 +27,36 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ error: "Email already exists or database error" });
   }
 });
-
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Look for the user in the database
+    // 1. Look for the user in the database
     const user = await db("users").where({ email }).first();
 
     if (!user) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    // Compare the plain password with the hash
+    // 2. Compare the plain password with the hash
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    // 4. Generate the JWT token with a 10-minute expiry
+    // 3. Generate the JWT token (Now that 'user' is defined and verified)
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { 
+        id: user.id, 
+        email: user.email, 
+        role: user.role // Crucial for Part C RBAC logic
+      },
       process.env.JWT_SECRET,
-      { expiresIn: "10m" }, // Changed from '1h' to '10m'
+      { expiresIn: "10m" }
     );
-//  Save the token to new separate table 
+
+    // 4. Save the token to the tokens table (for session tracking/logout)
     await db("tokens").insert({
       token: token,
       user_id: user.id
@@ -63,11 +67,12 @@ router.post("/login", async (req, res) => {
       message: "Login successful",
       token: token,
     });
+
   } catch (error) {
-    // 1. Log the real error to your terminal so YOU can see it
+    // Log the real error to your terminal for debugging
     console.error("LOGIN ERROR:", error);
 
-    // 2. Send a generic message to the user/Postman
+    // Send a generic message to the client
     res.status(500).json({ error: "Internal server error" });
   }
 });
