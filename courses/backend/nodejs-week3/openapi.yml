@@ -1,0 +1,127 @@
+openapi: 3.0.0
+info:
+  title: Snippets API
+  description: A REST API for managing code snippets with search and random functionality.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+
+paths:
+  /snippets:
+    get:
+      summary: Get all snippets
+      description: Returns all snippets, supports searching by title and sorting.
+      parameters:
+        - name: search
+          in: query
+          description: Filter snippets by title keywords.
+          schema:
+            type: string
+        - name: sort
+          in: query
+          description: Column to sort by (id, title, or contents).
+          schema:
+            type: string
+        - name: dir
+          in: query
+          description: Sort direction (asc or desc).
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of snippets.
+        '400':
+          description: Invalid sort column or direction.
+
+    post:
+      summary: Create a new snippet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - contents
+              properties:
+                title:
+                  type: string
+                contents:
+                  type: string
+      responses:
+        '201':
+          description: Snippet created.
+        '400':
+          description: Title and contents are required and cannot be empty.
+
+  /snippets/random:
+    get:
+      summary: Get a random snippet
+      responses:
+        '200':
+          description: A random snippet object.
+        '404':
+          description: No snippets found.
+
+  /snippets/{id}:
+    get:
+      summary: Get snippet by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Snippet found.
+        '400':
+          description: Invalid ID format.
+        '404':
+          description: Snippet not found.
+
+    put:
+      summary: Update a snippet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                contents:
+                  type: string
+      responses:
+        '200':
+          description: Snippet updated.
+        '400':
+          description: Invalid ID format or missing fields.
+        '404':
+          description: Snippet not found.
+
+    delete:
+      summary: Delete a snippet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Snippet deleted successfully.
+        '404':
+          description: Snippet not found.
+        '500':
+          description: Failed to delete.
