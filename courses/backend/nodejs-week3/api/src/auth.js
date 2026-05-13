@@ -1,24 +1,28 @@
 import jwt from "jsonwebtoken";
+import db from "../../db.js"; 
 
-const authenticateToken = (req, res, next) => {
-  // 1. Get the token from the "Authorization" header
+const authenticateToken = async (req, res, next) => { // Added 'async'
   const authHeader = req.headers["authorization"];
-  
   const token = authHeader && authHeader.split(" ")[1];
 
-  // 2. If there is no token, reject the request
   if (!token) {
     return res.status(401).json({ error: "Access denied. No token provided." });
   }
 
   try {
-    // 3. Verify the token using secret key
+    // 1. Verify the token using secret key
     const verified = jwt.verify(token, process.env.JWT_SECRET);
     
-    // 4. Attach the user info to the request object so routes can use it
+    // 2. CHECK THE DATABASE: Ensure this token is in our tokens table
+    const tokenExists = await db("tokens").where({ token }).first();
+
+    if (!tokenExists) {
+        return res.status(401).json({ error: "Session expired or logged out." });
+    }
+
+    // 3. Attach the user info to the request object
     req.user = verified;
     
-    // 5. Move to the next function (the actual route)
     next();
   } catch (error) {
     res.status(403).json({ error: "Invalid or expired token" });

@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcrypt";
 import db from "../../../db.js";
 import jwt from "jsonwebtoken";
-
+import authenticateToken from "../auth.js";
 const router = express.Router();
 
 // POST /api/users/register
@@ -88,6 +88,21 @@ router.get("/all", async (req, res) => {
     });
   }
 });
+// NEW: Logout route for Part B
+router.post("/logout-token", authenticateToken, async (req, res) => {
+  try {
+    // 1. Get the token from the header (Bearer <token>)
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
 
+    // 2. Delete this specific token from the tokens table
+    await db("tokens").where({ token }).del();
+
+    res.json({ message: "Logged out successfully. Token destroyed." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Logout failed" });
+  }
+});
 
 export default router;

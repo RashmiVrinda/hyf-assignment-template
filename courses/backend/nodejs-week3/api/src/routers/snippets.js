@@ -1,38 +1,40 @@
 import express from "express";
-import db from "../../../db.js";
-import authenticateToken from "../auth.js"; // Added the security guard import
+import db from "../../../db.js"; 
+import authenticateToken from "../auth.js"; 
 
 const router = express.Router();
 
-// 1. GET /
-router.get("/", async (req, res) => {
-  let query = db.select("*").from("snippets");
+/**
+ * 1. GET /
+ * Fetches snippets belonging ONLY to the logged-in user.
+ * Supports sorting and search filtering.
+ */
+router.get("/", authenticateToken, async (req, res) => {
+  // We start the query by filtering for the logged-in user immediately
+  let query = db.select("*").from("snippets").where("user_id", req.user.id);
+  
   const allowedColumns = ["id", "title", "contents"];
 
+  // Sorting Logic
   if (req.query.sort) {
     const orderBy = req.query.sort.toString();
     const direction = (req.query.dir || "asc").toLowerCase();
     const validDirections = ["asc", "desc"];
-    if (
-      allowedColumns.includes(orderBy) &&
-      validDirections.includes(direction)
-    ) {
+    
+    if (allowedColumns.includes(orderBy) && validDirections.includes(direction)) {
       query = query.orderBy(orderBy, direction);
     } else {
-      return res
-        .status(400)
-        .json({ error: "Invalid sort column or direction" });
+      return res.status(400).json({ error: "Invalid sort column or direction" });
     }
   }
   
-  // Part B - Extension 1: Search Filter
+  // Search Filter
   if (req.query.search) {
     const searchTerm = req.query.search.toString();
-    query = query.where("title", "like", `%${searchTerm}%`);
+    // We use an 'andWhere' group to ensure we don't accidentally search other people's snippets
+    query = query.andWhere("title", "like", `%${searchTerm}%`);
   }
   
-  console.log("SQL", query.toSQL().sql);
-
   try {
     const data = await query;
     res.json({ data });
@@ -42,13 +44,19 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Part B - Extension 2: GET /random //
-router.get("/random", async (req, res) => {
+/**
+ * 2. GET /random
+ * Returns a single random snippet from the user's collection.
+ */
+router.get("/random", authenticateToken, async (req, res) => {
   try {
-    const snippet = await db("snippets").orderByRaw("RANDOM()").first();
+    const snippet = await db("snippets")
+      .where("user_id", req.user.id)
+      .orderByRaw("RANDOM()")
+      .first();
 
     if (!snippet) {
-      return res.status(404).json({ error: "No snippets found" });
+      return res.status(404).json({ error: "No snippets found for this user" });
     }
 
     res.status(200).json(snippet);
@@ -58,42 +66,44 @@ router.get("/random", async (req, res) => {
   }
 });
 
-// 2. POST /- Part - C
-// I added 'authenticateToken' here. Now this route is protected!
+/**
+ * 3. POST /
+ * Part B Requirement: Protected by authenticateToken.
+ * Links the new snippet to the logged-in user via user_id.
+ */
 router.post("/", authenticateToken, async (req, res) => {
   const { title, contents } = req.body;
+  const userId = req.user.id; // Extracted from the valid JWT in middleware
 
-  // Validate: Required fields must be present and non-empty
+  // Validation
   if (!title || !contents || title.trim() === "" || contents.trim() === "") {
-    return res
-      .status(400)
-      .json({ error: "Title and contents are required and cannot be empty" });
+    return res.status(400).json({ error: "Title and contents are required" });
   }
 
   try {
-    // REMOVED user_id from here because the database table doesn't have it!
+    // We insert the userId so we know who owns this snippet
     const [id] = await db("snippets").insert({ 
         title, 
-        contents
+        contents,
+        user_id: userId 
     });
     
-    // Return the response without authorId for now
-    res.status(201).json({ id, title, contents });
+    res.status(201).json({ id, title, contents, user_id: userId });
   } catch (error) {
     console.error("POST Snippet Error:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Failed to create snippet. Ensure database has user_id column." });
   }
 });
 
-// 3. GET /:id - PART - C
+/**
+ * 4. GET /:id
+ * Fetches a specific snippet by its ID.
+ */
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
-  // Validate: ID must be a number
   if (isNaN(Number(id))) {
-    return res
-      .status(400)
-      .json({ error: "Invalid ID format. ID must be a number." });
+    return res.status(400).json({ error: "Invalid ID format" });
   }
 
   try {
@@ -110,28 +120,22 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// 4. PUT /:id -m PART - C
-router.put("/:id", async (req, res) => {
+/**
+ * 5. PUT /:id
+ * Updates a snippet. Note: For Part B, you might want to add authenticateToken here too!
+ */
+router.put("/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   const { title, contents } = req.body;
-
-  // Validate ID//
-  if (isNaN(Number(id))) {
-    return res.status(400).json({ error: "Invalid ID format" });
-  }
-
-  // Validate Body//
-  if (!title || !contents || title.trim() === "" || contents.trim() === "") {
-    return res.status(400).json({ error: "Title and contents are required" });
-  }
+  const userId = req.user.id; // Get ID from token
 
   try {
     const updated = await db("snippets")
-      .where({ id })
+      .where({ id, user_id: userId }) // Ensure they own it!
       .update({ title, contents });
 
     if (!updated) {
-      return res.status(404).json({ error: "Snippet not found" });
+      return res.status(404).json({ error: "Snippet not found or unauthorized" });
     }
 
     res.status(200).json({ id, title, contents });
@@ -141,29 +145,37 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// 5. DELETE /:id
-router.delete("/:id", async (req, res) => {
+/**
+ * 6. DELETE /:id
+ * Part B Requirement: Protected by authenticateToken.
+ * Only deletes the snippet if it belongs to the logged-in user.
+ */
+router.delete("/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
+  const userId = req.user.id; 
 
   try {
-    const deleted = await db("snippets").where({ id }).del();
+    const deletedCount = await db("snippets")
+      .where({ id, user_id: userId }) 
+      .del();
 
-    if (!deleted) {
-      return res.status(404).json({ error: "Snippet not found" });
+    if (deletedCount === 0) {
+      // If count is 0, it either doesn't exist OR user doesn't own it
+      return res.status(404).json({ error: "Snippet not found or unauthorized" });
     }
 
-    res.status(204).send();
+    res.status(200).json({ message: "Snippet deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete" });
+    console.error("DELETE Snippet Error:", error);
+    res.status(500).json({ error: "Failed to delete snippet" });
   }
 });
 
 // Part C: The Catch-all Error Handler
 router.use((err, req, res, next) => {
   console.error("SERVER ERROR:", err.stack);
-
   res.status(500).json({
-    error: "An unexpected server error occurred. Please try again later.",
+    error: "An unexpected server error occurred.",
   });
 });
 
