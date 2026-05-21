@@ -1,4 +1,6 @@
-import knex from "knex";
-const knex = knex({
-    client:"sqlite"
-})
+import knex from 'knex';
+import config from './knexfile.js';
+
+const db = knex(config.development);
+
+export default db;
